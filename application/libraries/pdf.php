@@ -16,9 +16,9 @@ class Pdf extends TCPDF
         // membuat sebuah gambar dengan file gambar dari $image_file, koortdinat x=10, y=10, ukuran Width gambar 15, align T(top), dpi = 300
         $this->Image($image_file, 10, 10, 20, '', 'JPG', '', 'T', false, 500, '', false, false, 0, false, false, false);
         // membuat tulisan dengan font helvetica, tebal, ukuran 10
-        $this->SetFont('helvetica', 'B', 10);
+        $this->SetFont('times', 'B', 12);
         // menentukan judul yang akan tampil. width=0, height=15, text=<< TCPDF CODEDB.CO >>, align=C(center)
-        $this->Cell(0, 15, 'ARRILLAH TRAVEL', 0, false, 'L', 0, '', 0, false, 'M', 'M');
+        $this->Cell(0, 15, 'Kartu Rencana Studi (KRS)', 0, false, 'C', 0, '', 0, false, 'M', 'M');
     }
  
     // Page footer
@@ -26,7 +26,7 @@ class Pdf extends TCPDF
         // Membuat posisi footer pada 15 mm dari bawah
         $this->SetY(-15);
         // menentukan tulisan miring dan ukuran font 8
-        $this->SetFont('helvetica', 'I', 8);
+        $this->SetFont('times', 'I', 8);
         // menampilkan nomor halaman
         $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
     }

@@ -113,7 +113,11 @@
     	<?php
     	$a = 24;
     		if ($total_sks <= $a ){
-                   echo "<button type='submit' class='btn btn-primary'><i class='fa fa-floppy-o'></i>Cetak</button>";
+
+                        echo  "<input type='hidden' class='form-control' id='semester' name='semester' value='".$semester."' />";
+                        echo "<input type='hidden' class='form-control' id='tahun_akademik' name='tahun_akademik' value='".$tahun_akademik."' />"; 
+                        echo "<input type='hidden' class='form-control' id='nama_prodi' name='nama_prodi' value='".$nama_prodi."' />";
+                    echo "<button type='submit' class='btn btn-primary'><i class='fa fa-floppy-o'></i>Cetak</button>";
                 }else{
                    echo anchor(site_url('inputfrs'),'<i class="fa fa-clock-o"></i> Cancel','title="Back" class="btn btn-danger btn-sm"');
                 }

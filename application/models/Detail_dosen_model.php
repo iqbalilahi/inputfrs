@@ -37,6 +37,16 @@ class Detail_dosen_model extends CI_Model
         $query = $this->db->get()->row();
         return $query;
     }
+    function cari_dosenprodi($prodi)
+    {
+        $this->db->select('id_detail_dosen,tbl_dosen.id_dosen,tbl_dosen.nama_dosen,tbl_jabatan.id_jabatan,tbl_jabatan.jabatan');
+        $this->db->from('detail_dosen');
+        $this->db->join('tbl_dosen', 'detail_dosen.id_dosen = tbl_dosen.id_dosen');
+        $this->db->join('tbl_jabatan', 'detail_dosen.id_jabatan = tbl_jabatan.id_jabatan');
+        $this->db->like('tbl_jabatan.jabatan', "Ketua Program Studi ".$prodi."");
+        $query = $this->db->get()->result();
+        return $query;
+    }
     function trx_pembimbing()
     {
         $this->db->select('id_detail_dosen,tbl_dosen.id_dosen,tbl_dosen.nama_dosen as "dosen",tbl_jabatan.id_jabatan,tbl_jabatan.jabatan');

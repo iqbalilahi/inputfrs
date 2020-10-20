@@ -72,6 +72,42 @@ class Inputfrs_model extends CI_Model
     $this->db->where("tbl_prodi.id_prodi",$prodi);
     return $this->db->get('tbl_matkul')->result();
     }
+    function cari_matkul1($smt,$periode,$prodi){
+        $this->db->select('id_matkul,kode_matkul,nama_matkul,tbl_sks.sks,status_nilai,tbl_dosen.id_dosen,tbl_dosen.nama_dosen,tbl_jenjangstudi.kode_studi,tbl_prodi.nama_prodi,tbl_prodi.id_prodi,tbl_semester.semester , tbl_tahunperiode.tahun_akademik');
+        //$this->db->from('tbl_matkul');
+        $this->db->join('tbl_dosen', 'tbl_matkul.id_dosen = tbl_dosen.id_dosen','left');
+        $this->db->join('tbl_sks', 'tbl_matkul.id_sks = tbl_sks.id_sks','left');
+        $this->db->join('tbl_jenjangstudi', 'tbl_matkul.id_jenjangstudi = tbl_jenjangstudi.id_jenjangstudi','left');
+        $this->db->join('tbl_prodi', 'tbl_matkul.id_prodi = tbl_prodi.id_prodi','left');
+        $this->db->join('tbl_semester', 'tbl_matkul.id_semester = tbl_semester.id_semester','left');
+        $this->db->join('tbl_tahunperiode', 'tbl_matkul.id_thperiode = tbl_tahunperiode.id_thperiode','left');
+    $this->db->where("tbl_semester.id_semester",$smt);
+    $this->db->where("tbl_tahunperiode.id_thperiode",$periode);
+    $this->db->where("tbl_prodi.id_prodi",$prodi);
+    return $this->db->get('tbl_matkul')->row();
+    }
+    function trx_inputfrs($id_mhs){
+        $this->db->select('f.id_frs, m.id_mhs as "id_mahasiswa", f.id_mhs as "id_mhs",m.npm, m.nama_mhs, f.nama_prodi, f.kode_studi, st.id_status, st.nama_status, f.tahun_akademik, f.semester, f.kode_matkul, mt.id_matkul, mt.nama_matkul, f.status_nilai, d.id_dosen, d.nama_dosen, f.sks');
+        $this->db->join('tbl_mhs m','f.id_mhs = m.id_mhs','left');
+        $this->db->join('tbl_status st','m.id_status = st.id_status','left');
+        $this->db->join('tbl_matkul mt','f.id_matkul = mt.id_matkul','left');
+        $this->db->join('tbl_dosen d','f.id_dosen = d.id_dosen','left');
+        $this->db->where('f.id_mhs', $id_mhs);
+        $this->db->where('mt.nama_matkul !=', 'Skripsi')->or_where('mt.nama_matkul','Tugas Akhir');
+        return $this->db->get('frs f')->row();
+    }
+    function trx_inputfrs1($id_mhs,$smt,$periode){
+        $this->db->select('f.id_frs, m.id_mhs as "id_mahasiswa", f.id_mhs as "id_mhs",m.npm, m.nama_mhs, f.nama_prodi, f.kode_studi, st.id_status, st.nama_status, f.tahun_akademik, f.semester, f.kode_matkul, mt.id_matkul, mt.nama_matkul, f.status_nilai, d.id_dosen, d.nama_dosen, f.sks');
+        $this->db->join('tbl_mhs m','f.id_mhs = m.id_mhs','left');
+        $this->db->join('tbl_status st','m.id_status = st.id_status','left');
+        $this->db->join('tbl_matkul mt','f.id_matkul = mt.id_matkul','left');
+        $this->db->join('tbl_dosen d','f.id_dosen = d.id_dosen','left');
+        $this->db->where('f.id_mhs', $id_mhs);
+        $this->db->where("f.semester",$smt);
+        $this->db->where("f.tahun_akademik",$periode);
+        $this->db->where('mt.nama_matkul !=', 'Skripsi')->or_where('mt.nama_matkul','Tugas Akhir');
+        return $this->db->get('frs f')->result();
+    }
     // get all
     function get_all()
     {
@@ -139,20 +175,7 @@ class Inputfrs_model extends CI_Model
         $this->db->where($this->id, $id);
         $this->db->delete($this->table);
     }
-    function trx_inputfrs()
-    {
-        $this->db->select('p.id , p.tgl_daftar, p.tgl_bayar, c.id_customer, pk.id_paket, c.nama_lengkap_c, pk.nama_paket, pk.harga_paket, p.status_pesanan, p.status_bayar, p.status_verifikasi_berkas');
-        $this->db->from('pendaftaran p');
-        $this->db->join('customer c', 'p.id_customer = c.id_customer');
-        $this->db->join('paket pk', 'p.id_paket = pk.id_paket');
-        $this->db->where('tgl_bayar !=', '0000-00-00');
-        $this->db->where('status_bayar !=', '0');
-        $this->db->where('status_pesanan !=', '0');
-        $this->db->where('status_verifikasi_berkas !=', '0');
-        $this->db->order_by("tgl_bayar ASC");
-        $query = $this->db->get();
-        return $query->result();
-    }
+   
 
 }
 

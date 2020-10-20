@@ -11,6 +11,7 @@ class Inputfrs extends CI_Controller {
         $this->load->database();
         $this->load->model('Mhs_model');
         $this->load->model('Inputfrs_model');
+        $this->load->model('Detail_dosen_model');
         $this->load->library('form_validation');        
         $this->load->library('datatables');
     }
@@ -42,11 +43,11 @@ class Inputfrs extends CI_Controller {
         $periode = $this->input->get('id_thperiode');
         
         //$data1 = array('matkul_data' => $row1);
+        $dataku = $this->Inputfrs_model->cari_matkul1($smt,$periode,$prodi);
 
         $row = $this->Mhs_model->trx_mhs($id);
         if ($row) {
             $data = array(
-        
         'id_mhs' => $row->id_mhs,
         'npm' => $row->npm,
         'nama_mhs' => $row->nama_mhs,
@@ -55,13 +56,19 @@ class Inputfrs extends CI_Controller {
         'nama_status' => $row->nama_status,
         'images' => $row->images,
         'matkul_data' => $this->Inputfrs_model->cari_matkul($smt,$periode,$prodi),
-        
+        'semester'=> $dataku->semester,
+        'tahun_akademik'=> $dataku->tahun_akademik,
         );
             $this->template->load('template','frs/input_frs', $data);
         }
     }
     public function insertrow()
     {
+        $id_mhs = $this->session->userdata('id_mhs');
+
+        $smt = $this->input->get_post('semester');
+        $periode = $this->input->get_post('tahun_akademik');
+        $prodi = $this->input->get_post('nama_prodi');
         $nm = $this->input->post('id_frs');
         $data = array();
         foreach ($nm as $key => $val) {
@@ -89,18 +96,28 @@ class Inputfrs extends CI_Controller {
             }
         };
         $this->session->set_flashdata('message', 'Create Record Success ');
-        $this->template->load('template','frs/frs_pdf', $data);
+        //print_r($id_mhs);exit;
+        $this->load->library('Pdf');
+        //$anu = $this->Detail_dosen_model->cari_dosenprodi($prodi);
+        $frs = $this->Inputfrs_model->trx_inputfrs($id_mhs);
+        //print_r($frs);exit;
+        if ($frs) {
+            $data = array(
+            'id_mhs' => $frs->id_mhs,
+            'npm' => $frs->npm,
+            'nama_mhs' => $frs->nama_mhs,
+            'kode_studi' => $frs->kode_studi,
+            'nama_prodi' => $frs->nama_prodi,
+            'nama_status' => $frs->nama_status,
+            'semester' => $frs->semester,
+            'tahun_akademik' => $frs->tahun_akademik,
+            'frs_data' => $this->Inputfrs_model->trx_inputfrs1($id_mhs,$smt,$periode),
+            'dosen_data' => $this->Detail_dosen_model->cari_dosenprodi($prodi)
+            );
+            $this->template->load('template','frs/frs_pdf', $data);
+        }
     }
 
-    public function frs_pdf()
-    {
-         $this->load->library('Pdf');
-        //     $frs = $this->Inputfrs_model->trx_inputfrs();
-        //     $data = array(
-        //     'frs_data' => $frs
-        // );
-            $this->template->load('template','frs/frs_pdf', $data);
-    } 
 
     function upload_foto(){
         $config['upload_path']          = './assets/foto_mhs';
