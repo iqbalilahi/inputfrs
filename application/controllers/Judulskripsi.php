@@ -61,126 +61,115 @@ class Judulskripsi extends CI_Controller
         $pembimbing_b = $this->Detail_dosen_model->trx_pembimbing()->result_array();
         $frs = $this->Inputfrs_model->trx_judulskripsi($id);
         $data = array(
-        'id_judulskripsi' => set_value('id_judulskripsi'),
-        'id_mhs' => set_value('id_mhs', $row->id_mhs),
-        'npm' => set_value('npm', $row->npm),
-        'nama_mhs' => set_value('nama_mhs', $row->nama_mhs),
-        'id_prodi' => set_value('id_prodi', $row->id_prodi),
-        'judulskripsi' => set_value('judulskripsi'),
-        'nama_prodi' => $row->nama_prodi,
-        'perusahaan' => set_value('perusahaan'),
-        'alamat_p' => set_value('alamat_p'),
-        'email' => set_value('email'),
-        'pembimbing_a' => $pembimbing_b,
-        'pembimbing_b' => $pembimbing_b,
-        'tahun_akademik' => set_value('tahun_akademik', $frs->tahun_akademik),
+            'id_judulskripsi' => set_value('id_judulskripsi'),
+            'id_mhs' => set_value('id_mhs', $row->id_mhs),
+            'npm' => set_value('npm', $row->npm),
+            'nama_mhs' => set_value('nama_mhs', $row->nama_mhs),
+            'id_prodi' => set_value('id_prodi', $row->id_prodi),
+            'judulskripsi' => set_value('judulskripsi'),
+            'nama_prodi' => $row->nama_prodi,
+            'perusahaan' => set_value('perusahaan'),
+            'alamat_p' => set_value('alamat_p'),
+            'email' => set_value('email'),
+            'pembimbing_a' => $pembimbing_b,
+            'pembimbing_b' => $pembimbing_b,
+            'tahun_akademik' => set_value('tahun_akademik', $frs->tahun_akademik),
 	);
         $this->template->load('template','judulskripsi/judulskripsi_form', $data);
     }
     
     public function buat() 
     {
-        $this->_rules();
+        $this->load->library('Pdf');
         $id = $this->session->userdata('id_mhs');
-        $nm = $this->input->post('id_mhs');
-        $sql = $this->db->query("SELECT 'frs.id_frs','frs.id_mhs','tbl_matkul.id_matkul', 'tbl_matkul.nama_matkul' FROM frs join tbl_matkul on 'frs.id_matkul' = 'tbl_matkul.id_matkul' where 'frs.id_mhs' = ".$nm." and 'tbl_matkul.nama_matkul'='Skripsi'");
-        //echo $this->db->last_query();exit;
-        $cek_matkul = $sql->num_rows();
-        if ($this->form_validation->run() == FALSE) {
-            $this->index();
-        }else{
+        $id_mhs = $this->input->get_post('id_mhs');
+        $npm = $this->input->get_post('npm');
+        $prodi = $this->input->get_post('nama_prodi');
         
-        if ($cek_matkul > 0 ) {
+        //$nm = $this->input->post('id_mhs');
+        $sql = $this->db->query("SELECT id_frs,id_mhs,id_matkul FROM frs WHERE id_mhs = ".$id." and id_matkul >= 7");
+        $sql2 = $this->db->query("SELECT id_mhs FROM judulskripsi WHERE id_mhs = ".$id."");
+        $cek_matkul = $sql->num_rows();
+        $cek = $sql2->num_rows();
+        // echo $this->db->last_query();exit;
+        // print_r($cek_matkul);exit;
+            if ($cek_matkul > 0 && $cek == 0 ) {
+                $data = array(
+                    'id_mhs' => $this->input->post('id_mhs',TRUE),
+                    'npm' => $this->input->post('npm',TRUE),
+                    'nama_mhs' => $this->input->post('nama_mhs',TRUE),
+                    'id_prodi' => $this->input->post('id_prodi',TRUE),
+                    'perusahaan' => $this->input->post('perusahaan',TRUE),
+                    'judulskripsi' => $this->input->post('judulskripsi',TRUE),
+                    'alamat_p' => $this->input->post('alamat_p',TRUE),
+                    'email' => $this->input->post('email',TRUE),
+                    'pembimbing_a' => $this->input->post('pembimbing_a',TRUE),
+                    'pembimbing_b' => $this->input->post('pembimbing_b',TRUE),
+                    'tahun_akademik' => $this->input->post('tahun_akademik',TRUE),
+                );
+                $this->Judulskripsi_model->insert($data);
+                
+                $row = $this->Judulskripsi_model->trx_inputjudul($id_mhs,$npm);
+                $data_kuya = array(
+                    'id_judulskripsi' => $row->id_judulskripsi,
+                    'id_mhs' => $row->id_mhs,
+                    'npm' => $row->npm,
+                    'nama_mhs' => $row->nama_mhs,
+                    'id_prodi' => $row->id_prodi,
+                    'nama_prodi' => $row->nama_prodi,
+                    'judulskripsi' => $row->judulskripsi,
+                    'perusahaan' => $row->perusahaan,
+                    'alamat_p' => $row->alamat_p,
+                    'email' => $row->email,
+                    'nama_dosen_a' => $row->nama_dosen_a,
+                    'nama_dosen_b' => $row->nama_dosen_b,
+                    'tahun_akademik' => $row->tahun_akademik,
+                    'dosen_data' => $this->Detail_dosen_model->cari_dosenprodi($prodi)
+                );
+                $this->template->load('template','judulskripsi/judulskripsi_pdf',$data_kuya);
+                $this->session->set_flashdata('message', 'Create Record Success 2');
+            }elseif ($cek_matkul > 0 && $cek > 0) {
+                $id_mhs = $this->session->userdata('id_mhs');
+
+                $data = array(
+                    'npm' => $this->input->post('npm',TRUE),
+                    'nama_mhs' => $this->input->post('nama_mhs',TRUE),
+                    'id_prodi' => $this->input->post('id_prodi',TRUE),
+                    'perusahaan' => $this->input->post('perusahaan',TRUE),
+                    'judulskripsi' => $this->input->post('judulskripsi',TRUE),
+                    'alamat_p' => $this->input->post('alamat_p',TRUE),
+                    'email' => $this->input->post('email',TRUE),
+                    'pembimbing_a' => $this->input->post('pembimbing_a',TRUE),
+                    'pembimbing_b' => $this->input->post('pembimbing_b',TRUE),
+                    'tahun_akademik' => $this->input->post('tahun_akademik',TRUE),
+                );
+                $this->Judulskripsi_model->update($id_mhs,$data);
+                
+                $row = $this->Judulskripsi_model->trx_inputjudul($id_mhs,$npm);
+                $data_ku = array(
+                    'id_judulskripsi' => $row->id_judulskripsi,
+                    //'id_mhs' => $row->id_mhs,
+                    'npm' => $row->npm,
+                    'nama_mhs' => $row->nama_mhs,
+                    'id_prodi' => $row->id_prodi,
+                    'nama_prodi' => $row->nama_prodi,
+                    'judulskripsi' => $row->judulskripsi,
+                    'perusahaan' => $row->perusahaan,
+                    'alamat_p' => $row->alamat_p,
+                    'email' => $row->email,
+                    'nama_dosen_a' => $row->nama_dosen_a,
+                    'nama_dosen_b' => $row->nama_dosen_b,
+                    'tahun_akademik' => $row->tahun_akademik,
+                    'dosen_data' => $this->Detail_dosen_model->cari_dosenprodi($prodi)
+                );
+                $this->template->load('template','judulskripsi/judulskripsi_pdf',$data_ku);
+                $this->session->set_flashdata('message', 'Update Record Success');
+            } else {
                 $this->session->set_flashdata('message', 'Belum Input FRS Matakuliah Skripsi');
                 $this->template->load('template','judulskripsi/judulskripsi_form');
-        }else{
-            $data = array(
-                'id_mhs' => $this->input->post('id_mhs',TRUE),
-                'npm' => $this->input->post('npm',TRUE),
-                'nama_mhs' => $this->input->post('nama_mhs',TRUE),
-                'id_prodi' => $this->input->post('id_prodi',TRUE),
-                'perusahaan' => $this->input->post('perusahaan',TRUE),
-                'judulskripsi' => $this->input->post('judulskripsi',TRUE),
-                'alamat_p' => $this->input->post('alamat_p',TRUE),
-                'email' => $this->input->post('email',TRUE),
-                'pembimbing_a' => $this->input->post('pembimbing_a',TRUE),
-                'pembimbing_b' => $this->input->post('pembimbing_b',TRUE),
-                'tahun_akademik' => $this->input->post('tahun_akademik',TRUE),
-            );
-            $this->Judulskripsi_model->insert($data);
-            $this->template->load('template','judulskripsi/judulskripsi_pdf', $data);
-            $this->session->set_flashdata('message', 'Create Record Success 2');
             }
-        }
-    }
-    public function judulskripsi_pdf()
-    {
-         $this->load->library('Pdf');
-        //     $frs = $this->Inputfrs_model->trx_inputfrs();
-        //     $data = array(
-        //     'frs_data' => $frs
-        // );
-            $this->template->load('template','judulskripsi/judulskripsi_pdf', $data);
     }
     
-  //   public function update($id) 
-  //   {
-  //       $row = $this->Judulskripsi_model->get_by_id($id);
-
-  //       if ($row) {
-  //           $data = array(
-  //               'button' => 'Update',
-  //               'action' => site_url('judulskripsi/update_action'),
-		// 'id_judulskripsi' => set_value('id_judulskripsi', $row->id_judulskripsi),
-		// 'id_mhs' => set_value('id_mhs', $row->id_mhs),
-		// 'npm' => set_value('npm', $row->npm),
-		// 'nama_mhs' => set_value('nama_mhs', $row->nama_mhs),
-		// 'id_prodi' => set_value('id_prodi', $row->id_prodi),
-  //       'judulskripsi' => set_value('judulskripsi', $row->perusahaan),
-		// 'perusahaan' => set_value('perusahaan', $row->perusahaan),
-		// 'alamat_p' => set_value('alamat_p', $row->alamat_p),
-		// 'email' => set_value('email', $row->email),
-		// 'id_detail_dosen' => set_value('id_detail_dosen', $row->id_detail_dosen),
-		// 'pembimbing_a' => set_value('pembimbing_a', $row->pembimbing_a),
-		// 'pembimbing_b' => set_value('pembimbing_b', $row->pembimbing_b),
-		// 'id_frs' => set_value('id_frs', $row->id_frs),
-		// 'tahun_akademik' => set_value('tahun_akademik', $row->tahun_akademik),
-	 //    );
-  //           $this->template->load('template','judulskripsi/judulskripsi_form', $data);
-  //       } else {
-  //           $this->session->set_flashdata('message', 'Record Not Found');
-  //           redirect(site_url('judulskripsi'));
-  //       }
-  //   }
-    
-  //   public function update_action() 
-  //   {
-  //       $this->_rules();
-
-  //       if ($this->form_validation->run() == FALSE) {
-  //           $this->update($this->input->post('id_judulskripsi', TRUE));
-  //       } else {
-  //           $data = array(
-		// 'id_mhs' => $this->input->post('id_mhs',TRUE),
-		// 'npm' => $this->input->post('npm',TRUE),
-		// 'nama_mhs' => $this->input->post('nama_mhs',TRUE),
-		// 'id_prodi' => $this->input->post('id_prodi',TRUE),
-  //       'judulskripsi' => $this->input->post('judulskripsi',TRUE),
-		// 'perusahaan' => $this->input->post('perusahaan',TRUE),
-		// 'alamat_p' => $this->input->post('alamat_p',TRUE),
-		// 'email' => $this->input->post('email',TRUE),
-		// 'id_detail_dosen' => $this->input->post('id_detail_dosen',TRUE),
-		// 'pembimbing_a' => $this->input->post('pembimbing_a',TRUE),
-		// 'pembimbing_b' => $this->input->post('pembimbing_b',TRUE),
-		// 'id_frs' => $this->input->post('id_frs',TRUE),
-		// 'tahun_akademik' => $this->input->post('tahun_akademik',TRUE),
-	 //    );
-
-  //           $this->Judulskripsi_model->update($this->input->post('id_judulskripsi', TRUE), $data);
-  //           $this->session->set_flashdata('message', 'Update Record Success');
-  //           redirect(site_url('judulskripsi'));
-  //       }
-  //   }
     
     public function delete($id) 
     {

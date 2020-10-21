@@ -74,6 +74,10 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
+	// 'hostname' => 'localhost',
+	// 'username' => 'id15178256_iqbalilahi',
+	// 'password' => '6YMJ7M[ELOhhAg5s',
+	// 'database' => 'id15178256_database_iqbalilahi',
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
@@ -90,7 +94,7 @@ $db['default'] = array(
 	'swap_pre' => '',
 	'encrypt' => FALSE,
 	'compress' => FALSE,
-	'stricton' => FALSE,
+	'stricton' => TRUE,
 	'failover' => array(),
 	'save_queries' => TRUE
 );

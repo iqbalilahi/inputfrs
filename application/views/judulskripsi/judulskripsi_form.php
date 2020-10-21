@@ -52,7 +52,11 @@
 	    </tr>
 	    
 	    <tr><td width='200'>Tahun Akademik <?php echo form_error('tahun_akademik') ?></td><td><input type="text" class="form-control" name="tahun_akademik" readonly id="tahun_akademik" placeholder="Tahun Akademik" value="<?php echo $tahun_akademik; ?>" /></td></tr>
-	    <tr><td></td><td><input type="hidden" name="id_judulskripsi" value="<?php echo $id_judulskripsi; ?>" /> 
+	    
+	    <tr><td></td><td><input type="hidden" name="id_judulskripsi" value="<?php echo $id_judulskripsi; ?>" />
+	    	<input type="hidden" class="form-control" name="nama_prodi" id="nama_prodi" placeholder="Id Prodi" value="<?php echo $nama_prodi; ?>" />
+	    <input type="hidden" class="form-control" name="npm" id="npm" placeholder="Npm" readonly value="<?php echo $npm; ?>" />
+	    <input type="hidden" class="form-control" name="id_mhs" id="id_mhs" placeholder="Id Mhs" readonly value="<?php echo $id_mhs; ?>" /> 
 	    <button type="submit" class="btn btn-danger"><i class="fa fa-floppy-o"></i> Create</button> 
 	    <a href="<?php echo site_url('judulskripsi') ?>" class="btn btn-info"><i class="fa fa-sign-out"></i> Kembali</a></td></tr>
 	</table></form>        

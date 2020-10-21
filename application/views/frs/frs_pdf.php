@@ -64,7 +64,7 @@
                 <td></td>
                 <td></td>
                 <td>SKS Baru</td>
-                <td>'.$total_sks = $total_sks + $frsku->sks.'</td>
+                <td>'.$total_sks = (int)$total_sks + $frsku->sks.'</td>
             </tr>';
             $html.='</table>';
             $html.='</div>';

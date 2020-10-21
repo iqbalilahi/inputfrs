@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 10, 2020 at 07:24 AM
+-- Generation Time: Oct 20, 2020 at 02:21 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 5.6.32
 
@@ -41,7 +41,8 @@ CREATE TABLE `detail_dosen` (
 INSERT INTO `detail_dosen` (`id_detail_dosen`, `id_dosen`, `id_jabatan`) VALUES
 (1, 1, 6),
 (2, 2, 7),
-(3, 3, 8);
+(3, 3, 8),
+(4, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -98,7 +99,7 @@ CREATE TABLE `judulskripsi` (
 --
 
 INSERT INTO `judulskripsi` (`id_judulskripsi`, `id_mhs`, `npm`, `nama_mhs`, `id_prodi`, `judulskripsi`, `perusahaan`, `alamat_p`, `email`, `pembimbing_a`, `pembimbing_b`, `tahun_akademik`) VALUES
-(1, 1, '43A87006150128', 'testing', 1, 'A', 'A', 'A', 'perusahaan@gmail.com', 2, 3, '2018/2019');
+(2, 1, '43A87006150128', 'testing', 1, 'AB', 'AB', 'A', 'perusahaan@gmail.com', 2, 3, '2018/2019');
 
 -- --------------------------------------------------------
 
@@ -127,7 +128,8 @@ CREATE TABLE `tbl_dosen` (
 INSERT INTO `tbl_dosen` (`id_dosen`, `nid`, `nama_dosen`, `telp_dosen`, `alamat_dosen`, `jeniskelamin`, `pendidikan_akhir`, `agama`, `email_dosen`, `tempat_lahir`, `tanggal_lahir`) VALUES
 (1, 'D009', 'test', '089635244513', 'jl. Almuawanah Gg.Tawakal Rt007/012 Kel.Aren Jaya, Bekasi Timur', 'Laki-laki', 'S2', 'islam', 'testting@gmail.com', 'Jakarta', '2020-09-22'),
 (2, 'D010', 'Budi S.kom,. M.kom.', '087881456735', 'jl. Almuawanah Gg.Tawakal Rt007/012 Kel.Aren Jaya, Bekasi Timur', 'Laki-laki', 'S2', 'islam', 'budi@gmail.com', 'Bekasi', '1971-09-07'),
-(3, 'D011', 'Muhammad Nur S.kom,. M.kom.', '087881456735', 'jl. Almuawanah Gg.Tawakal Rt007/012 Kel.Aren Jaya, Bekasi Timur', 'Laki-laki', 'S2', 'islam', 'mnur@gmail.com', 'Bekasi', '1983-10-11');
+(3, 'D011', 'Muhammad Nur S.kom,. M.kom.', '087881456735', 'jl. Almuawanah Gg.Tawakal Rt007/012 Kel.Aren Jaya, Bekasi Timur', 'Laki-laki', 'S2', 'islam', 'mnur@gmail.com', 'Bekasi', '1983-10-11'),
+(4, 'D012', 'Dosen TI', '087881456735', 'jl. Almuawanah Gg.Tawakal Rt007/012 Kel.Aren Jaya, Bekasi Timur', 'Laki-laki', 'S2', 'islam', 'dosenti@gmail.com', 'Jakarta', '1974-10-29');
 
 -- --------------------------------------------------------
 
@@ -663,7 +665,7 @@ ALTER TABLE `tbl_user_level`
 -- AUTO_INCREMENT for table `detail_dosen`
 --
 ALTER TABLE `detail_dosen`
-  MODIFY `id_detail_dosen` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_detail_dosen` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `frs`
@@ -681,7 +683,7 @@ ALTER TABLE `judulskripsi`
 -- AUTO_INCREMENT for table `tbl_dosen`
 --
 ALTER TABLE `tbl_dosen`
-  MODIFY `id_dosen` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_dosen` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_hak_akses`

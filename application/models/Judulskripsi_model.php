@@ -40,6 +40,17 @@ class Judulskripsi_model extends CI_Model
         $this->db->where($this->id, $id);
         return $this->db->get($this->table)->row();
     }
+    function trx_inputjudul($id_mhs,$npm)
+    {
+        $this->db->select('j.id_judulskripsi,j.id_mhs,j.npm,j.nama_mhs,p.id_prodi,p.nama_prodi,j.judulskripsi,j.perusahaan,j.alamat_p,j.email,d.nama_dosen as "nama_dosen_a", dd.nama_dosen as "nama_dosen_b",j.tahun_akademik');
+        $this->db->from('judulskripsi j');
+        $this->db->join('tbl_prodi p', 'j.id_prodi = p.id_prodi');
+        $this->db->join('tbl_dosen d', 'j.pembimbing_a = d.id_dosen');
+        $this->db->join('tbl_dosen dd', 'j.pembimbing_b = dd.id_dosen');
+        $this->db->where('id_mhs', $id_mhs);
+        $this->db->where('npm', $npm);
+        return $this->db->get()->row();
+    }
     
     // get total rows
     function total_rows($q = NULL) {
@@ -87,9 +98,9 @@ class Judulskripsi_model extends CI_Model
     }
 
     // update data
-    function update($id, $data)
+    function update($id_mhs,$data)
     {
-        $this->db->where($this->id, $id);
+        $this->db->where('id_mhs', $id_mhs);
         $this->db->update($this->table, $data);
     }
 
