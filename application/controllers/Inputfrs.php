@@ -114,7 +114,7 @@ class Inputfrs extends CI_Controller {
             'frs_data' => $this->Inputfrs_model->trx_inputfrs1($id_mhs,$smt,$periode),
             'dosen_data' => $this->Detail_dosen_model->cari_dosenprodi($prodi)
             );
-            $this->template->load('template','frs/frs_pdf', $data);
+            $this->load->view('frs/frs_pdf', $data);
         }
     }
 

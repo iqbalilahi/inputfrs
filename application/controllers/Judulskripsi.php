@@ -126,7 +126,7 @@ class Judulskripsi extends CI_Controller
                     'tahun_akademik' => $row->tahun_akademik,
                     'dosen_data' => $this->Detail_dosen_model->cari_dosenprodi($prodi)
                 );
-                $this->template->load('template','judulskripsi/judulskripsi_pdf',$data_kuya);
+                $this->load->view('judulskripsi/judulskripsi_pdf',$data_kuya);
                 $this->session->set_flashdata('message', 'Create Record Success 2');
             }elseif ($cek_matkul > 0 && $cek > 0) {
                 $id_mhs = $this->session->userdata('id_mhs');
@@ -162,7 +162,7 @@ class Judulskripsi extends CI_Controller
                     'tahun_akademik' => $row->tahun_akademik,
                     'dosen_data' => $this->Detail_dosen_model->cari_dosenprodi($prodi)
                 );
-                $this->template->load('template','judulskripsi/judulskripsi_pdf',$data_ku);
+                $this->load->view('judulskripsi/judulskripsi_pdf',$data_ku);
                 $this->session->set_flashdata('message', 'Update Record Success');
             } else {
                 $this->session->set_flashdata('message', 'Belum Input FRS Matakuliah Skripsi');
