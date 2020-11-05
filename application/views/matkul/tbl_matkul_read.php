@@ -6,7 +6,7 @@
                 <div class="box box-warning box-solid">
 
                     <div class="box-body">
-        <h2 class="box-title" style="margin-top:0px">Barang Read</h2>
+        <h2 class="box-title" style="margin-top:0px">Mata Kuliah Read</h2>
         <table class="table table-bordered">
 	    <tr><td>Kode Matkul</td><td><?php echo $kode_matkul; ?></td></tr>
 	    <tr><td>Nama Matkul</td><td><?php echo $nama_matkul; ?></td></tr>

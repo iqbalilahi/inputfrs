@@ -6,7 +6,7 @@
                 <div class="box box-warning box-solid">
 
                     <div class="box-body">
-        <h2 class="box-title" style="margin-top:0px">Barang Read</h2>
+        <h2 class="box-title" style="margin-top:0px">Detail Mahasiswa</h2>
         <table class="table table-bordered">
 	    <tr><td>Npm</td><td><?php echo $npm; ?></td></tr>
 	    <tr><td>Nama Mhs</td><td><?php echo $nama_mhs; ?></td></tr>

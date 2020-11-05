@@ -28,7 +28,7 @@
                     <div class="box-body">
         <h2 class="box-title" style="margin-top:0px">Input FRS</h2>
         <form action="<?php echo base_url("inputfrs/insertrow")?>" method="post">
-        <table class="table table-striped table-bordered" id="tabeldata" >
+        <table id="tabel-data" class="table table-striped table-bordered">
 	    <!-- <tr>
 	    	<td>NPM : <?php echo $npm; ?></td>
 	    	<td>Jenjang Studi : <?php echo $nama_studi; echo " - "; echo $nama_prodi;  ?></td>
@@ -130,16 +130,4 @@
                 </div>
             </div>
     </section>
-    <script src="<?php echo base_url('assets/js/jquery-1.11.2.min.js') ?>"></script>
-    <script src="<?php echo base_url('assets/datatables/jquery.dataTables.js') ?>"></script>
-    <script src="<?php echo base_url('assets/datatables/dataTables.bootstrap.js') ?>"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var table = $('#tabeldata').DataTable( {
-            scrollY: 300,
-            scrollX: true,
-            //paging      : true
-        } );
-    } );
-    </script>
 </div>

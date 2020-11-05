@@ -12,9 +12,10 @@ class Judulskripsi extends CI_Controller
         $this->load->model('Judulskripsi_model');
         $this->load->model('Mhs_model');
         $this->load->model('Inputfrs_model');
+        $this->load->model('Tahunperiode_model');
         $this->load->model('Detail_dosen_model');
         $this->load->library('form_validation');        
-	$this->load->library('datatables');
+    $this->load->library('datatables');
     }
 
     // public function index()
@@ -32,20 +33,20 @@ class Judulskripsi extends CI_Controller
         $row = $this->Judulskripsi_model->get_by_id($id);
         if ($row) {
             $data = array(
-		'id_judulskripsi' => $row->id_judulskripsi,
-		'id_mhs' => $row->id_mhs,
-		'npm' => $row->npm,
-		'nama_mhs' => $row->nama_mhs,
-		'id_prodi' => $row->id_prodi,
-		'perusahaan' => $row->perusahaan,
-		'alamat_p' => $row->alamat_p,
-		'email' => $row->email,
-		'id_detail_dosen' => $row->id_detail_dosen,
-		'pembimbing_a' => $row->pembimbing_a,
-		'pembimbing_b' => $row->pembimbing_b,
-		'id_frs' => $row->id_frs,
-		'tahun_akademik' => $row->tahun_akademik,
-	    );
+        'id_judulskripsi' => $row->id_judulskripsi,
+        'id_mhs' => $row->id_mhs,
+        'npm' => $row->npm,
+        'nama_mhs' => $row->nama_mhs,
+        'id_prodi' => $row->id_prodi,
+        'perusahaan' => $row->perusahaan,
+        'alamat_p' => $row->alamat_p,
+        'email' => $row->email,
+        'id_detail_dosen' => $row->id_detail_dosen,
+        'pembimbing_a' => $row->pembimbing_a,
+        'pembimbing_b' => $row->pembimbing_b,
+        'id_frs' => $row->id_frs,
+        'tahun_akademik' => $row->tahun_akademik,
+        );
             $this->template->load('template','judulskripsi/judulskripsi_read', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
@@ -57,9 +58,16 @@ class Judulskripsi extends CI_Controller
     {
         $id = $this->session->userdata('id_mhs');
         $row = $this->Mhs_model->trx_mhs($id);
+        //$rows = $this->Tahunperiode_model->get_all();
         $pembimbing_a = $this->Detail_dosen_model->trx_pembimbing()->result_array();
         $pembimbing_b = $this->Detail_dosen_model->trx_pembimbing()->result_array();
-        $frs = $this->Inputfrs_model->trx_judulskripsi($id);
+        $asu = $this->Inputfrs_model->trx_judulskripsi($id);
+        $frs = $this->db->query("SELECT frs.id_frs,frs.id_mhs,frs.id_matkul,frs.kode_matkul,tbl_matkul.id_matkul,tbl_matkul.nama_matkul,frs.id_dosen,frs.nama_prodi,frs.kode_studi,frs.semester,frs.tahun_akademik FROM frs join tbl_matkul on frs.id_matkul = tbl_matkul.id_matkul where frs.id_mhs = '".$id."' and semester = 8");
+        $cek_frs = $frs->num_rows();
+        if($cek_frs == 0){
+            redirect(site_url('inputfrs'));
+        }else{
+        
         $data = array(
             'id_judulskripsi' => set_value('id_judulskripsi'),
             'id_mhs' => set_value('id_mhs', $row->id_mhs),
@@ -73,8 +81,9 @@ class Judulskripsi extends CI_Controller
             'email' => set_value('email'),
             'pembimbing_a' => $pembimbing_b,
             'pembimbing_b' => $pembimbing_b,
-            'tahun_akademik' => set_value('tahun_akademik', $frs->tahun_akademik),
-	);
+            'tahun_akademik' => set_value('tahun_akademik', $asu->tahun_akademik));
+            
+        }
         $this->template->load('template','judulskripsi/judulskripsi_form', $data);
     }
     
@@ -187,23 +196,23 @@ class Judulskripsi extends CI_Controller
 
     public function _rules() 
     {
-	$this->form_validation->set_rules('id_mhs', 'id mhs', 'trim|required');
-	$this->form_validation->set_rules('npm', 'npm', 'trim|required');
-	$this->form_validation->set_rules('nama_mhs', 'nama mhs', 'trim|required');
-	$this->form_validation->set_rules('id_prodi', 'id prodi', 'trim|required');
+    $this->form_validation->set_rules('id_mhs', 'id mhs', 'trim|required');
+    $this->form_validation->set_rules('npm', 'npm', 'trim|required');
+    $this->form_validation->set_rules('nama_mhs', 'nama mhs', 'trim|required');
+    $this->form_validation->set_rules('id_prodi', 'id prodi', 'trim|required');
     $this->form_validation->set_rules('judulskripsi', 'judul skripsi', 'required|trim|is_unique[judulskripsi.judulskripsi]',[
         'is_unique' => 'Judul Skripsi ini sudah ada !']);
-	$this->form_validation->set_rules('perusahaan', 'perusahaan', 'trim|required');
-	$this->form_validation->set_rules('alamat_p', 'alamat p', 'trim|required');
-	$this->form_validation->set_rules('email', 'email', 'trim|required');
-	//$this->form_validation->set_rules('id_detail_dosen', 'id detail dosen', 'trim|required');
-	$this->form_validation->set_rules('pembimbing_a', 'pembimbing a', 'trim|required');
-	$this->form_validation->set_rules('pembimbing_b', 'pembimbing b', 'trim|required');
-	$this->form_validation->set_rules('id_frs', 'id frs', 'trim|required');
-	$this->form_validation->set_rules('tahun_akademik', 'tahun akademik', 'trim|required');
+    $this->form_validation->set_rules('perusahaan', 'perusahaan', 'trim|required');
+    $this->form_validation->set_rules('alamat_p', 'alamat p', 'trim|required');
+    $this->form_validation->set_rules('email', 'email', 'trim|required');
+    //$this->form_validation->set_rules('id_detail_dosen', 'id detail dosen', 'trim|required');
+    $this->form_validation->set_rules('pembimbing_a', 'pembimbing a', 'trim|required');
+    $this->form_validation->set_rules('pembimbing_b', 'pembimbing b', 'trim|required');
+    $this->form_validation->set_rules('id_frs', 'id frs', 'trim|required');
+    $this->form_validation->set_rules('tahun_akademik', 'tahun akademik', 'trim|required');
 
-	$this->form_validation->set_rules('id_judulskripsi', 'id_judulskripsi', 'trim');
-	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+    $this->form_validation->set_rules('id_judulskripsi', 'id_judulskripsi', 'trim');
+    $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
     public function excel()
@@ -228,38 +237,38 @@ class Judulskripsi extends CI_Controller
 
         $kolomhead = 0;
         xlsWriteLabel($tablehead, $kolomhead++, "No");
-	xlsWriteLabel($tablehead, $kolomhead++, "Id Mhs");
-	xlsWriteLabel($tablehead, $kolomhead++, "Npm");
-	xlsWriteLabel($tablehead, $kolomhead++, "Nama Mhs");
-	xlsWriteLabel($tablehead, $kolomhead++, "Id Prodi");
-	xlsWriteLabel($tablehead, $kolomhead++, "Perusahaan");
-	xlsWriteLabel($tablehead, $kolomhead++, "Alamat P");
-	xlsWriteLabel($tablehead, $kolomhead++, "Email");
-	xlsWriteLabel($tablehead, $kolomhead++, "Id Detail Dosen");
-	xlsWriteLabel($tablehead, $kolomhead++, "Pembimbing A");
-	xlsWriteLabel($tablehead, $kolomhead++, "Pembimbing B");
-	xlsWriteLabel($tablehead, $kolomhead++, "Id Frs");
-	xlsWriteLabel($tablehead, $kolomhead++, "Tahun Akademik");
+    xlsWriteLabel($tablehead, $kolomhead++, "Id Mhs");
+    xlsWriteLabel($tablehead, $kolomhead++, "Npm");
+    xlsWriteLabel($tablehead, $kolomhead++, "Nama Mhs");
+    xlsWriteLabel($tablehead, $kolomhead++, "Id Prodi");
+    xlsWriteLabel($tablehead, $kolomhead++, "Perusahaan");
+    xlsWriteLabel($tablehead, $kolomhead++, "Alamat P");
+    xlsWriteLabel($tablehead, $kolomhead++, "Email");
+    xlsWriteLabel($tablehead, $kolomhead++, "Id Detail Dosen");
+    xlsWriteLabel($tablehead, $kolomhead++, "Pembimbing A");
+    xlsWriteLabel($tablehead, $kolomhead++, "Pembimbing B");
+    xlsWriteLabel($tablehead, $kolomhead++, "Id Frs");
+    xlsWriteLabel($tablehead, $kolomhead++, "Tahun Akademik");
 
-	foreach ($this->Judulskripsi_model->get_all() as $data) {
+    foreach ($this->Judulskripsi_model->get_all() as $data) {
             $kolombody = 0;
 
             //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
             xlsWriteNumber($tablebody, $kolombody++, $nourut);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->id_mhs);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->npm);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->nama_mhs);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->id_prodi);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->perusahaan);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->alamat_p);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->email);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->id_detail_dosen);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->pembimbing_a);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->pembimbing_b);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->id_frs);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->tahun_akademik);
+        xlsWriteLabel($tablebody, $kolombody++, $data->id_mhs);
+        xlsWriteLabel($tablebody, $kolombody++, $data->npm);
+        xlsWriteLabel($tablebody, $kolombody++, $data->nama_mhs);
+        xlsWriteLabel($tablebody, $kolombody++, $data->id_prodi);
+        xlsWriteLabel($tablebody, $kolombody++, $data->perusahaan);
+        xlsWriteLabel($tablebody, $kolombody++, $data->alamat_p);
+        xlsWriteLabel($tablebody, $kolombody++, $data->email);
+        xlsWriteLabel($tablebody, $kolombody++, $data->id_detail_dosen);
+        xlsWriteLabel($tablebody, $kolombody++, $data->pembimbing_a);
+        xlsWriteLabel($tablebody, $kolombody++, $data->pembimbing_b);
+        xlsWriteLabel($tablebody, $kolombody++, $data->id_frs);
+        xlsWriteLabel($tablebody, $kolombody++, $data->tahun_akademik);
 
-	    $tablebody++;
+        $tablebody++;
             $nourut++;
         }
 

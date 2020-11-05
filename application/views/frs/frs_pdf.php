@@ -28,9 +28,9 @@
                 </tr>
                 
             </table>
-                <div>
-                <div>
-                <h2 style="margin-top:0px"></h2>
+                <div class="box box-warning box-solid">
+                <div class="box-body">
+                <h2 class="box-title" style="margin-top:0px"></h2>
         <table border="1" align="center">
             <thead>
                 <tr>

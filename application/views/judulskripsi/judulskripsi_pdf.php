@@ -64,7 +64,7 @@
             $html.='</table>';
             $html.='</div>';
             $pdf->writeHTML($html, true, false, true, false, '');
-            $pdf->Output('INPUT_JUDUL_SKRIPSI.pdf', 'I');
+            $pdf->Output('INPUT JUDUL SKRIPSI.pdf', 'I');
 
 // $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
 //     $pdf->SetTitle('FIFO');

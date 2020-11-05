@@ -106,15 +106,7 @@
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <!-- <?php 
-                                            $level = $this->session->userdata('tingkat');
-                                            if ($level == 'admin'){
-                                                echo anchor('#', 'Profile', array('class' => 'btn btn-default btn-flat'));
-                                                //echo "<a href='#' class='btn btn-default btn-flat'>Profile</a>";
-                                            }else{
-                                                echo anchor(site_url('inputfrs/update/'.$this->session->userdata('id_mhs')), 'Profile', array('class' => 'btn btn-default btn-flat'));
-                                                //echo "<a href='#' class='btn btn-default btn-flat'>Profile</a>";
-                                            }?> -->
+                                            
                                         </div>
                                         <div class="pull-right">
                                             <?php 
@@ -184,9 +176,11 @@
         <script>
           $(document).ready(function() {
             var table = $('#tabel-data').DataTable( {
-            scrollY: 300,
-            scrollX: true,
-            //paging      : true
+            "bPaginate": true,
+			"bLengthChange": false,
+			"bFilter": true,
+			"bInfo": false,
+			"bAutoWidth": false
         } );
     } );
             $(function () {

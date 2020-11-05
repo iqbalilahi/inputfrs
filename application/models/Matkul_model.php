@@ -34,14 +34,14 @@ class Matkul_model extends CI_Model
     }
  function trx_matkul($id)
     {
-        $this->db->select('id_matkul,kode_matkul,nama_matkul,tbl_sks.sks,status_nilai,tbl_dosen.nama_dosen,tbl_jenjangstudi.nama_studi,tbl_prodi.nama_prodi,tbl_semester.semester , tbl_tahunperiode.tahun_akademik');
+        $this->db->select('id_matkul,tbl_sks.id_sks,kode_matkul,nama_matkul,tbl_sks.sks,status_nilai,tbl_jenjangstudi.id_jenjangstudi,tbl_prodi.id_prodi,tbl_semester.id_semester,tbl_dosen.id_dosen,tbl_dosen.nama_dosen,tbl_jenjangstudi.nama_studi,tbl_prodi.nama_prodi,tbl_semester.semester , tbl_tahunperiode.id_thperiode,tbl_tahunperiode.tahun_akademik');
         $this->db->from('tbl_matkul');
-        $this->db->join('tbl_sks', 'tbl_matkul.id_sks = tbl_sks.id_sks');
-        $this->db->join('tbl_dosen', 'tbl_matkul.id_dosen = tbl_dosen.id_dosen');
-        $this->db->join('tbl_jenjangstudi', 'tbl_matkul.id_jenjangstudi = tbl_jenjangstudi.id_jenjangstudi');
-        $this->db->join('tbl_prodi', 'tbl_matkul.id_prodi = tbl_prodi.id_prodi');
-        $this->db->join('tbl_semester', 'tbl_matkul.id_semester = tbl_semester.id_semester');
-        $this->db->join('tbl_tahunperiode', 'tbl_matkul.id_thperiode = tbl_tahunperiode.id_thperiode');
+        $this->db->join('tbl_sks', 'tbl_matkul.id_sks = tbl_sks.id_sks','left');
+        $this->db->join('tbl_dosen', 'tbl_matkul.id_dosen = tbl_dosen.id_dosen','left');
+        $this->db->join('tbl_jenjangstudi', 'tbl_matkul.id_jenjangstudi = tbl_jenjangstudi.id_jenjangstudi','left');
+        $this->db->join('tbl_prodi', 'tbl_matkul.id_prodi = tbl_prodi.id_prodi','left');
+        $this->db->join('tbl_semester', 'tbl_matkul.id_semester = tbl_semester.id_semester','left');
+        $this->db->join('tbl_tahunperiode', 'tbl_matkul.id_thperiode = tbl_tahunperiode.id_thperiode','left');
         $this->db->where($this->id, $id);
         $query = $this->db->get()->row();
         return $query;

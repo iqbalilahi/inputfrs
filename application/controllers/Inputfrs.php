@@ -46,7 +46,7 @@ class Inputfrs extends CI_Controller {
         $dataku = $this->Inputfrs_model->cari_matkul1($smt,$periode,$prodi);
 
         $row = $this->Mhs_model->trx_mhs($id);
-        if ($row) {
+        if ($row == True && $dataku == True) {
             $data = array(
         'id_mhs' => $row->id_mhs,
         'npm' => $row->npm,
@@ -60,6 +60,23 @@ class Inputfrs extends CI_Controller {
         'tahun_akademik'=> $dataku->tahun_akademik,
         );
             $this->template->load('template','frs/input_frs', $data);
+        }else{
+            $id = $this->session->userdata('id_mhs');
+        $row = $this->Mhs_model->trx_mhs($id);
+        if ($row) {
+            $data = array(
+        'id_mhs' => $row->id_mhs,
+        'npm' => $row->npm,
+        'nama_mhs' => $row->nama_mhs,
+        'nama_studi' => $row->nama_studi,
+        'nama_prodi' => $row->nama_prodi,
+        'nama_status' => $row->nama_status,
+        'id_prodi' => set_value('id_prodi', $row->id_prodi),
+        'id_semester' => set_value('id_semester'),
+        'id_thperiode' => set_value('id_thperiode'),
+        );
+            $this->template->load('template','frs/form_frs', $data);
+        }
         }
     }
     public function insertrow()

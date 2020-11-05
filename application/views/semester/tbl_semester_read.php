@@ -6,7 +6,7 @@
                 <div class="box box-warning box-solid">
 
                     <div class="box-body">
-        <h2 class="box-title" style="margin-top:0px">Barang Read</h2>
+        <h2 class="box-title" style="margin-top:0px">Detail Semester</h2>
         <table class="table table-bordered">
 	    <tr><td>Semester</td><td><?php echo $semester; ?></td></tr>
 	    <tr><td></td><td><a href="<?php echo site_url('semester') ?>" class="btn btn-default">Cancel</a></td></tr>

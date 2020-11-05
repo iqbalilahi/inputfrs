@@ -6,7 +6,7 @@
                 <div class="box box-warning box-solid">
 
                     <div class="box-body">
-        <h2 class="box-title" style="margin-top:0px">Barang Read</h2>
+        <h2 class="box-title" style="margin-top:0px">Detail periode</h2>
         <table class="table table-bordered">
 	    <tr><td>Periode</td><td><?php echo $periode; ?></td></tr>
 	    <tr><td>Tahun Akademik</td><td><?php echo $tahun_akademik; ?></td></tr>

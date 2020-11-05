@@ -6,7 +6,7 @@
                 <div class="box box-warning box-solid">
 
                     <div class="box-body">
-        <h2 class="box-title" style="margin-top:0px">Barang Read</h2>
+        <h2 class="box-title" style="margin-top:0px">Status Mahasiswa</h2>
         <table class="table table-bordered">
 	    <tr><td>Kode Status</td><td><?php echo $kode_status; ?></td></tr>
 	    <tr><td>Nama Status</td><td><?php echo $nama_status; ?></td></tr>
