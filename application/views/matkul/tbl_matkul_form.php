@@ -16,6 +16,7 @@
 	    <tr><td width='200'>Status Nilai <?php echo form_error('status_nilai') ?></td><td><input type="text" class="form-control" name="status_nilai" id="status_nilai" placeholder="Status Nilai" value="<?php echo $status_nilai; ?>" /></td></tr>
 	    <tr><td width='200'>Dosen <?php echo form_error('id_dosen') ?></td><td>
                             <?php echo cmb_dinamis('id_dosen', 'tbl_dosen', 'nama_dosen', 'id_dosen', $id_dosen,'DESC') ?>
+
 	    <tr><td width='200'>Jenjang Studi <?php echo form_error('id_jenjangstudi') ?></td><td>
                             <?php echo cmb_dinamis('id_jenjangstudi', 'tbl_jenjangstudi', 'nama_studi', 'id_jenjangstudi', $id_jenjangstudi,'DESC') ?>
 	    <tr><td width='200'>Prodi <?php echo form_error('id_prodi') ?></td><td>
