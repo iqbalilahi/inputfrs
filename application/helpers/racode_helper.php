@@ -46,6 +46,7 @@ function rename_string_is_aktif($string){
 
 function is_login(){
     $ci = get_instance();
+    $count= count($ci->session->userdata('id_users'));
     if(!$ci->session->userdata('id_users')){
         redirect('auth');
     }else{
@@ -65,7 +66,8 @@ function is_login(){
 }
 function is_loginmhs(){
     $ci = get_instance();
-    if(!$ci->session->userdata('id_mhs')){
+    $count_mhs = count($ci->session->userdata('id_mhs'));
+    if($count_mhs!=1){
         redirect('log');
     }else{
         $modul = $ci->uri->segment(1);

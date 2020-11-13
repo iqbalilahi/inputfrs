@@ -2,18 +2,18 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Inputfrs extends CI_Controller {
+class Inputfrsa extends CI_Controller {
 
     function __construct()
     {
         parent::__construct();
-        is_loginmhs();
-        $this->load->database();
-        $this->load->model('Mhs_model');
-        $this->load->model('Inputfrs_model');
-        $this->load->model('Detail_dosen_model');
-        $this->load->library('form_validation');        
-        $this->load->library('datatables');
+        // is_loginmhs();
+        // $this->load->database();
+        // $this->load->model('Mhs_model');
+        // $this->load->model('Inputfrs_model');
+        // $this->load->model('Detail_dosen_model');
+        // $this->load->library('form_validation');        
+        // $this->load->library('datatables');
     }
     public function index() {
         //$this->load->view('table');
@@ -88,16 +88,15 @@ class Inputfrs extends CI_Controller {
         $prodi = $this->input->get_post('nama_prodi');
         $nm = $this->input->post('id_frs');
         $data = array();
-        foreach ($nm as $key => $val) {
-            $sql = $this->db->query("SELECT id_matkul FROM frs where id_matkul='".$_POST['id_matkul'][$key]."'");
-            // echo $this->db->last_query();exit;
+        foreach ($nm as strlen($key) => $val) {
+            $sql = $this->db->query("SELECT id_matkul,id_mhs FROM frs where id_matkul='".$_POST['id_matkul'][$key]."' and id_mhs='".$_POST['id_mhs'][$key]."'");
+            //echo $this->db->last_query();exit;
             $cek_matkul = $sql->num_rows();
             if ($cek_matkul > 0 ) {
                 $this->session->set_flashdata('message', 'Sudah Input sebelumnya');
             }else{
-            // print_r($_POST['id_matkul'][$key]);
                 $data = array(
-                        'id_frs' => $_POST['id_frs'][$key],
+                        
                         'id_mhs' => $_POST['id_mhs'][$key],
                         'id_matkul' => $_POST['id_matkul'][$key],
                         'kode_matkul' => $_POST['kode_matkul'][$key],
@@ -109,11 +108,11 @@ class Inputfrs extends CI_Controller {
                         'semester' => $_POST['semester'][$key],
                         'tahun_akademik' => $_POST['tahun_akademik'][$key]
                      );
-                $test = $this->db->insert('frs',$data);
+                print_r($data);exit();
+                $this->db->insert('frs',$data);
             }
         };
         $this->session->set_flashdata('message', 'Create Record Success ');
-        //print_r($id_mhs);exit;
         $this->load->library('Pdf');
         //$anu = $this->Detail_dosen_model->cari_dosenprodi($prodi);
         $frs = $this->Inputfrs_model->trx_inputfrs($id_mhs);

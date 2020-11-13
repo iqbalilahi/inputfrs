@@ -13,13 +13,13 @@
         		<span class="info-box-number">
         			NPM : <?php echo $npm; ?>
         		</span>
-        		<span class="info-box-text">
+        		<span class="info-box-hidden">
         			Nama : <?php echo $nama_mhs; ?>
         		</span>
-        		<span class="info-box-text">
+        		<span class="info-box-hidden">
         			Jenjang Studi : <?php echo $nama_studi; echo " - "; echo $nama_prodi; ?>
         		</span>
-        		<span class="info-box-text">
+        		<span class="info-box-hidden">
         			Status Kuliah : <?php echo $nama_status; ?>
         		</span>
         	</div>
@@ -27,7 +27,7 @@
                 <div class="box box-warning box-solid">
                     <div class="box-body">
         <h2 class="box-title" style="margin-top:0px">Input FRS</h2>
-        <form action="<?php echo base_url("inputfrs/insertrow")?>" method="post">
+        <form action="<?php echo base_url("forinputfrs/insertrow")?>" method="post">
         <table id="tabel-data" class="table table-striped table-bordered">
 	    <!-- <tr>
 	    	<td>NPM : <?php echo $npm; ?></td>
@@ -53,7 +53,8 @@
         <tbody>
             <?php
             $total_sks = 0;
-            $start = 0;
+			$start = 0;
+			$index = 0;
             foreach ($matkul_data as $matkul)
             {
                 ?>
@@ -68,8 +69,8 @@
 		    <td><?php echo $matkul->nama_matkul; ?> </td>
             
                 <?php if ($matkul->id_dosen != 0) {
-                    echo "<input type='hidden' class='form-control' id='id_dosen' name='id_dosen[]' value=' ".$matkul->id_dosen."' />";
-                    echo'<td>'. $matkul->nama_dosen.'</td>';
+                    echo "<td><input type='hidden' class='form-control' id='id_dosen' name='id_dosen[]' value='".$matkul->id_dosen."' />";
+                    echo''. $matkul->nama_dosen.'</td>';
                 }else{ 
                     echo "<input type='hidden' class='form-control' id='id_dosen' name='id_dosen[]' value='0' />";
                     echo'<td>'. $matkul->id_dosen.'</td>';
@@ -86,16 +87,20 @@
 		    <td><?php echo $matkul->nama_prodi; ?>
 		    	<input type="hidden" class="form-control" id="nama_prodi" name="nama_prodi[]" value="<?php echo $matkul->nama_prodi; ?>" />
 		    </td>
-		    <input type="hidden" class="form-control" id="semester" name="semester[]" value="<?php echo $matkul->semester; ?>" />
-		   	<input type="hidden" class="form-control" id="tahun_akademik" name="tahun_akademik[]" value="<?php echo $matkul->tahun_akademik; ?>" />
-		    <td style="text-align:center" width="140px">
-		    <input type="hidden" class="form-control" name="id_frs[]"/> 
+            <td>
+		      <input type="hidden" class="form-control" id="semester" name="semester[<?php echo $index; ?>]" value="<?php echo $matkul->semester; ?>" />
+            <td>
+		   	  <input type="hidden" class="form-control" id="tahun_akademik" name="tahun_akademik[]" value="<?php echo $matkul->tahun_akademik; ?>" />
+            </td>
+		    <td>
+		      <input type="hidden" class="form-control" name="id_frs[]"/> 
 			<?php 
 
 			?>
 		    </td>
 	        </tr>
                 <?php
+				$index++;
             }
             ?>
             </tbody>

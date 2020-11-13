@@ -23,7 +23,7 @@
             </div>
         </td></tr>
 	    <tr><td width='200'>Pendidikan Akhir <?php echo form_error('pendidikan_akhir') ?></td><td><input type="text" class="form-control" name="pendidikan_akhir" id="pendidikan_akhir" placeholder="Pendidikan Akhir" value="<?php echo $pendidikan_akhir; ?>" /></td></tr>
-	    <tr><td>Jenis Kelamin <?php echo form_error('agama') ?></td>
+	    <tr><td>Agama <?php echo form_error('agama') ?></td>
             <td>
                 <div class="form-group">
                     <select class="form-control" name="agama" id="agama">

@@ -9,7 +9,7 @@
 
                     <div class="box-body">
         <h2 class="box-title" style="margin-top:0px">Input FRS</h2>
-        <form method="get" action="<?php echo base_url("inputfrs/cari_matkul/")?>">
+        <form method="get" action="<?php echo base_url("forinputfrs/cari_matkul/")?>">
         <table class="table table-bordered">
 	    <tr>
 	    	<td>NPM : <?php echo $npm; ?></td>

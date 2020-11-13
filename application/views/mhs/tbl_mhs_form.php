@@ -22,7 +22,7 @@
                     </select>
             </div>
         </td></tr>
-	    <tr><td>Jenis Kelamin <?php echo form_error('agama') ?></td>
+	    <tr><td>Agama <?php echo form_error('agama') ?></td>
             <td>
                 <div class="form-group">
                     <select class="form-control" name="agama" id="agama">

@@ -65,7 +65,7 @@ class Judulskripsi extends CI_Controller
         $frs = $this->db->query("SELECT frs.id_frs,frs.id_mhs,frs.id_matkul,frs.kode_matkul,tbl_matkul.id_matkul,tbl_matkul.nama_matkul,frs.id_dosen,frs.nama_prodi,frs.kode_studi,frs.semester,frs.tahun_akademik FROM frs join tbl_matkul on frs.id_matkul = tbl_matkul.id_matkul where frs.id_mhs = '".$id."' and semester = 8");
         $cek_frs = $frs->num_rows();
         if($cek_frs == 0){
-            redirect(site_url('inputfrs'));
+            redirect(site_url('forinputfrs'));
         }else{
         
         $data = array(
