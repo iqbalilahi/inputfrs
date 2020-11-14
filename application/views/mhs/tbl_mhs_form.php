@@ -42,7 +42,15 @@
 	    <!-- <tr><td width='200'>Id Status <?php echo form_error('id_status') ?></td><td><input type="text" class="form-control" name="id_status" id="id_status" placeholder="Id Status" value="<?php echo $id_status; ?>" /></td></tr> -->
 	    <tr><td width='200'>Status Kuliah<?php echo form_error('id_status') ?></td><td>
                             <?php echo cmb_dinamis('id_status', 'tbl_status', 'nama_status', 'id_status', $id_status,'DESC') ?> 
-	    <tr><td width='200'>Password <?php echo form_error('password') ?></td><td><input type="text" class="form-control" name="password" id="password" placeholder="Password" value="<?php echo $password; ?>" /></td></tr>
+	    <!-- <tr><td width='200'>Password <?php echo form_error('password') ?></td><td><input type="text" class="form-control" name="password" id="password" placeholder="Password" value="<?php echo $password; ?>" /></td></tr> -->
+        <?php
+                    if ($this->uri->segment(2) == 'create') {
+                        ?>
+
+                        <tr><td width='200'>Password <?php echo form_error('password') ?></td><td><input type="text" class="form-control" name="password" id="password" placeholder="Password" value="<?php echo $password; ?>" /></td></tr>
+                        <?php
+                    }
+                    ?>
 	    <tr><td width='200'>Foto Mahasiswa <?php echo form_error('images') ?></td><td> <input type="file" name="images"></td></tr>
 	    <tr><td width='200'>Level User <?php echo form_error('id_user_level') ?></td><td>
                             <?php echo cmb_dinamis('id_user_level', 'tbl_user_level', 'nama_level', 'id_user_level', $id_user_level,'DESC') ?>

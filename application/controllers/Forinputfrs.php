@@ -43,6 +43,9 @@ class Forinputfrs extends CI_Controller {
         
         //$data1 = array('matkul_data' => $row1);
         $dataku = $this->Inputfrs_model->cari_matkul1($smt,$periode,$prodi);
+        $as = $this->db->query("SELECT `id_matkul`, `kode_matkul`, `nama_matkul`, `tbl_sks`.`sks`, `status_nilai`, `tbl_dosen`.`id_dosen`, `tbl_dosen`.`nama_dosen`, `tbl_jenjangstudi`.`kode_studi`, `tbl_prodi`.`nama_prodi`, `tbl_prodi`.`id_prodi`, `tbl_semester`.`semester`, `tbl_tahunperiode`.`tahun_akademik` FROM `tbl_matkul` LEFT JOIN `tbl_dosen` ON `tbl_matkul`.`id_dosen` = `tbl_dosen`.`id_dosen` LEFT JOIN `tbl_sks` ON `tbl_matkul`.`id_sks` = `tbl_sks`.`id_sks` LEFT JOIN `tbl_jenjangstudi` ON `tbl_matkul`.`id_jenjangstudi` = `tbl_jenjangstudi`.`id_jenjangstudi` LEFT JOIN `tbl_prodi` ON `tbl_matkul`.`id_prodi` = `tbl_prodi`.`id_prodi` LEFT JOIN `tbl_semester` ON `tbl_matkul`.`id_semester` = `tbl_semester`.`id_semester` LEFT JOIN `tbl_tahunperiode` ON `tbl_matkul`.`id_thperiode` = `tbl_tahunperiode`.`id_thperiode` WHERE `tbl_semester`.`id_semester` = '".$smt."' AND `tbl_tahunperiode`.`id_thperiode` = '".$periode."' AND `tbl_prodi`.`id_prodi` = '".$prodi."'");
+            // echo $this->db->last_query();exit;
+        $cekku = $as->num_rows();
 
         $row = $this->Mhs_model->trx_mhs($id);
         if ($row == True && $dataku == True) {
@@ -55,6 +58,7 @@ class Forinputfrs extends CI_Controller {
         'nama_status' => $row->nama_status,
         'images' => $row->images,
         'matkul_data' => $this->Inputfrs_model->cari_matkul($smt,$periode,$prodi),
+        'anuan' => $cekku,
         'semester'=> $dataku->semester,
         'tahun_akademik'=> $dataku->tahun_akademik,
         );
@@ -110,7 +114,7 @@ class Forinputfrs extends CI_Controller {
                         'semester' => $_POST['semester'],
                         'tahun_akademik' => $_POST['tahun_akademik']
                      );
-                    //  print_r($data);
+                    // print_r($data);exit();
                 $this->db->insert('frs',$data);
             }
             $row++;
